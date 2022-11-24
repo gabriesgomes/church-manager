@@ -1,9 +1,17 @@
 import { Request, Response } from 'express';
+import { Login } from '../../models/Login';
 
-export function loginAuth(req: Request, res: Response) {
+export async function loginAuth(req: Request, res: Response) {
     try {
         const { user, password } = req.query;
-        res.json({ user: user, pass: password });
+
+        if(!user && !password) {
+            return res.status(500).json({ message: 'Invalid data' });
+        }
+
+        const validatedUser = Login.findOne({ user: user, password: password});
+
+        res.json(validatedUser);
 
     } catch {
         res.json({ error: 404, message: 'Not found'});

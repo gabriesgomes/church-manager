@@ -1,15 +1,25 @@
 import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
 
-import { Login } from '../../models/Login';
+import { User } from '../../models/User';
 
 export async function createUser(req: Request, res: Response) {
     try {
-        const { user, password } = req.body;
+        const { userName } = req.body;
 
-        const createdUser = await Login.create({ user, password });
+        if(await User.findOne({ userName })) {
+            return res.status(400).json({ error: 'User already exists' });
+        }
 
-        res.json(createdUser);
+        const hash = await bcrypt.hash(req.body.password, 10);
+        req.body.password = hash;
+
+        const createdUser = await User.create(req.body);
+
+        createdUser.password = '';
+
+        return res.json(createdUser);
     } catch (error) {
-        res.sendStatus(500).json(error);
+        return res.sendStatus(400).json(error);
     }
 }

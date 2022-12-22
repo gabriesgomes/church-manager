@@ -10,9 +10,10 @@
       ],
       "parserOptions": {
         "project": [
-          "tsconfig.json"
-
+          "**/tsconfig.json"
         ],
+        "tsconfigRootDir": "src",
+        "sourceType": "module",
         "createDefaultProgram": true
       },
       "extends": [

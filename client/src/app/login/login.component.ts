@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LoginUser } from '../shared/models/login.model';
@@ -23,15 +22,15 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {
         this.loginForm = this.formBuilder.group({
-          user: this.user.name,
+          userName: this.user.userName,
           password: this.user.password
         });
     }
 
     public logginIn(): any {
-        this.user.name = this.loginForm.get('user').value;
+        this.user.userName = this.loginForm.get('userName').value;
         this.user.password = this.loginForm.get('password').value;
-        console.log(this.user.name);
-        console.log(this.user.password);
+
+        this.loginService.login(this.user.userName, this.user.password);
     }
 }

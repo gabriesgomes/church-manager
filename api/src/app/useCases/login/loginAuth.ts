@@ -1,19 +1,34 @@
 import { Request, Response } from 'express';
-import { Login } from '../../models/Login';
+import bcrypt from 'bcryptjs';
+// import jwt from 'jsonwebtoken';
+
+import { User } from '../../models/User';
+// import { authConfig } from '../../config/auth';
+
+// function generateToken(params = {}) {
+//     return jwt.sign(params, authConfig.secret, {
+//         expiresIn: 86400,
+//     } );
+// }
 
 export async function loginAuth(req: Request, res: Response) {
     try {
-        const { user, password } = req.query;
+        const { userName, password } = req.body;
 
-        if(!user && !password) {
-            return res.status(500).json({ message: 'Invalid data' });
+        const user = await User.findOne({ userName }).select('+password');
+
+        if ( !user ) {
+            return res.status(400).json({ error: 'User not found' });
         }
 
-        const validatedUser = Login.findOne({ user: user, password: password});
+        if(!await bcrypt.compare(password, user!.password)) {
+            return res.status(400).json({ error: 'Invalid password' });
+        }
 
-        res.json(validatedUser);
-
+        return res.json({
+            user
+        });
     } catch {
-        res.json({ error: 404, message: 'Not found'});
+        return res.json({ error: 404, message: 'Authentication failed'});
     }
 }

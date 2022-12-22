@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { Login } from '../../models/Login';
+import { User } from '../../models/User';
 
 export async function deleteUser(req: Request, res: Response) {
     try {
         const userId = req.params;
 
-        const deletedUser = await Login.deleteOne(userId);
+        const deletedUser = await User.deleteOne(userId);
 
         res.json(deletedUser);
     } catch (error) {

@@ -1,0 +1,32 @@
+<form [formGroup]="loginForm">
+    <div class="po-login po-md-8 po-lg-5 po-xl-4">
+        <po-login
+          name="userName"
+          [p-auto-focus]="true"
+          p-clean="true"
+          p-label="Usuário"
+          p-placeholder="Digite seu usuário"
+          formControlName="userName"
+        >
+        </po-login>
+
+        <po-password
+            name="password"
+            p-label="Senha"
+            p-clean="true"
+            p-placeholder="Digite sua senha"
+            formControlName="password"
+        >
+        </po-password>
+
+        <div class="po-mt-4">
+            <po-button
+                class="po-sm-4 po-offset-sm-4 po-offset-md-4 po-offset-lg-4 po-offset-xl-4"
+                p-label="Entrar"
+                p-kind="primary"
+                (p-click)="logginIn()"
+            >
+            </po-button>
+        </div>
+    </div>
+</form>

@@ -14,7 +14,7 @@ import { User } from '../../models/User';
 export async function loginAuth(req: Request, res: Response) {
     try {
         const { userName, password } = req.body;
-
+        console.log(userName, password);
         const user = await User.findOne({ userName }).select('+password');
 
         if ( !user ) {

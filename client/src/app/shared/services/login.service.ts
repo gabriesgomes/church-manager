@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,13 @@ export class LoginService {
 
   login(userName: string, password: string) {
       const body = {userName, password};
-
-      return this.http.post(`${this.url}/${this.service}`, body).subscribe(
+      console.log(body);
+      return this.http.post(`${this.url}/${this.service}`, body, this.headers).subscribe(
         (result: any) => {
+          console.log(result);
           if(result) {
             this.router.navigateByUrl(`home`);
           }
-        }, (error: any) => this.router.navigateByUrl(''));
+        });
   }
 }

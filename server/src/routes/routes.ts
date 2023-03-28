@@ -8,8 +8,8 @@ const router = Router();
 router.post('/auth', SessionController.store);
 
 // User
-router.post('/users', UserController.createUser);
-router.get('/users', UserController.listUsers);
-router.delete('/users/:userId', UserController.deleteUser);
+router.get('/users', UserController.getAllUsers);
+router.post('/users', UserController.store);
+router.delete('/users/:userId', UserController.destroy);
 
 export default router
